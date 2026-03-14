@@ -5,6 +5,7 @@ resource "hcloud_server" "web" {
   image       = "ubuntu-24.04"
   server_type = "cx23"
 
-  ssh_keys  = [for k in hcloud_ssh_key.team : k.id]
-  user_data = file("${path.module}/cloud-init.yaml")
+  ssh_keys     = [for k in hcloud_ssh_key.team : k.id]
+  firewall_ids = [hcloud_firewall.web.id]
+  user_data    = file("${path.module}/cloud-init.yaml")
 }
